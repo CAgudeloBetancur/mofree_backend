@@ -8,12 +8,13 @@ import {
 
 const directorRouter = Router();
 
-// Crear Tipo
+// Crear Director
 directorRouter.post("/", [
     check('nombre', 'nombre requerido').not().isEmpty(),
     check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
   ], crearDirectorHandler);
 
+// Editar Director
 directorRouter.put("/:id", [
     check('nombre', 'nombre requerido').not().isEmpty(),
     check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
