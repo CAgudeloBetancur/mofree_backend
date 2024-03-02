@@ -10,9 +10,9 @@ const tipoRouter = Router();
 
 // Crear Tipo
 tipoRouter.post("/", [
-    check('nombre', 'nombre requerido').not().isEmpty(),
-    check('descripcion', 'descripcion requerida').isEmpty()
-  ], crearTipoHandler);
+  check('nombre', 'nombre requerido').not().isEmpty(),
+  check('descripcion', 'descripcion requerida').isEmpty()
+], crearTipoHandler);
 
 // Listar Tipos
 tipoRouter.get("/all", listarTiposHandler)

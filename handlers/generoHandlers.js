@@ -49,7 +49,7 @@ export const editarGeneroHandler = async (req, res) => {
 
     if(!generoActualizado) {
 
-      return res.status(400).send('Este director no existe');
+      return res.status(400).send('Este Genero no existe');
 
     }
 

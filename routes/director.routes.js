@@ -10,14 +10,14 @@ const directorRouter = Router();
 
 // Crear Director
 directorRouter.post("/", [
-    check('nombre', 'nombre requerido').not().isEmpty(),
-    check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
-  ], crearDirectorHandler);
+  check('nombre', 'nombre requerido').not().isEmpty(),
+  check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
+], crearDirectorHandler);
 
 // Editar Director
 directorRouter.put("/:id", [
-    check('nombre', 'nombre requerido').not().isEmpty(),
-    check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
-  ], editarDirectorHandler);
+  check('nombre', 'nombre requerido').not().isEmpty(),
+  check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
+], editarDirectorHandler);
 
 export default directorRouter;

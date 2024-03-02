@@ -2,24 +2,26 @@ import {Router} from 'express';
 import { check } from 'express-validator';
 
 import { 
-  crearGeneroHandler,
-  editarGeneroHandler
-} from '../handlers/generoHandlers.js';
+  crearProductoraHandler,
+  editarProductoraHandler
+} from '../handlers/productoraHandlers.js';
 
-const generoRouter = Router();
+const productoraRouter = Router();
 
-// Crear Genero
-generoRouter.post("/", [
+// Crear Productora
+productoraRouter.post("/", [
   check('nombre', 'nombre requerido').not().isEmpty(),
   check('descripcion', 'descripcion requerida').not().isEmpty(),
+  check('slogan', 'slogan requerido').not().isEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
-], crearGeneroHandler);
+], crearProductoraHandler);
 
 // Editar Genero
-generoRouter.put("/:id", [
+productoraRouter.put("/:id", [
   check('nombre', 'nombre requerido').not().isEmpty(),
   check('descripcion', 'descripcion requerida').not().isEmpty(),
+  check('slogan', 'slogan requerido').not().isEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
-], editarGeneroHandler);
+], editarProductoraHandler);
 
-export default generoRouter;
+export default productoraRouter;  
