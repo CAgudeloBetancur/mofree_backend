@@ -9,7 +9,6 @@ const MediaSchema = Schema({
   titulo: {
     type: String,
     required: true,
-    enum: ['Activo', 'Inactivo']
   },
   sinopsis: {
     type: String,
@@ -20,7 +19,7 @@ const MediaSchema = Schema({
     required: true
   },
   urlImagen: {
-    type: string,
+    type: String,
     required: true
   },
   fechaEstreno: {
@@ -49,11 +48,13 @@ const MediaSchema = Schema({
   },
   fechaCreacion: {
     type: Date,
-    required: true
+    required: true,
+    default: new Date()
   },
   fechaActualizacion: {
     type: Date,
-    required: true
+    required: true,
+    default: new Date()
   }
 });
 
