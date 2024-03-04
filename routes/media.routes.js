@@ -39,7 +39,7 @@ const validaciones = [
 mediaRouter.post("/", validaciones, validate_idInReferenceProperties, crearMediaHandler);
 
 // Listar Medias
-mediaRouter.get("/all", listarMediasHandler);
+mediaRouter.get("/lista", listarMediasHandler);
 
 // Editar Media
 mediaRouter.put("/:id", validaciones, editarMediaHandler);

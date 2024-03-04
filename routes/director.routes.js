@@ -3,7 +3,8 @@ import { check } from 'express-validator';
 
 import { 
   crearDirectorHandler,
-  editarDirectorHandler
+  editarDirectorHandler,
+  listarDirectoresHandler
 } from '../handlers/directorHandlers.js';
 
 const directorRouter = Router();
@@ -19,5 +20,8 @@ directorRouter.put("/:id", [
   check('nombre', 'nombre requerido').not().isEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarDirectorHandler);
+
+// Listar Directores
+directorRouter.get("/lista", listarDirectoresHandler);
 
 export default directorRouter;

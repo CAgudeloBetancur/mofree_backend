@@ -1,3 +1,4 @@
+import listarGeneros from '../controllers/generoControllers/listarGeneros.js';
 import crearGenero from './../controllers/generoControllers/crearGenero.js';
 import editarGenero from './../controllers/generoControllers/editarGenero.js';
 import { validationResult } from 'express-validator';
@@ -58,6 +59,24 @@ export const editarGeneroHandler = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).send('Ocurrio un error');
+
+  }
+
+}
+
+// Listar Generos
+
+export const listarGenerosHandler = async (req, res) => {
+
+  try {
+    
+    const generos = await listarGeneros();
+
+    return res.status(200).send(generos);
+
+  } catch (error) {
+    
+    return res.status(500).send({errors: error.message});
 
   }
 

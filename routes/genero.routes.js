@@ -3,7 +3,8 @@ import { check } from 'express-validator';
 
 import { 
   crearGeneroHandler,
-  editarGeneroHandler
+  editarGeneroHandler,
+  listarGenerosHandler
 } from '../handlers/generoHandlers.js';
 
 const generoRouter = Router();
@@ -21,5 +22,8 @@ generoRouter.put("/:id", [
   check('descripcion', 'descripcion requerida').not().isEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarGeneroHandler);
+
+// Listar Generos
+generoRouter.get("/lista", listarGenerosHandler);
 
 export default generoRouter;

@@ -15,6 +15,6 @@ tipoRouter.post("/", [
 ], crearTipoHandler);
 
 // Listar Tipos
-tipoRouter.get("/all", listarTiposHandler)
+tipoRouter.get("/lista", listarTiposHandler)
 
 export default tipoRouter;

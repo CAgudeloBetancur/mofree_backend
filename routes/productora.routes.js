@@ -3,7 +3,8 @@ import { check } from 'express-validator';
 
 import { 
   crearProductoraHandler,
-  editarProductoraHandler
+  editarProductoraHandler,
+  listarProductorasHandler
 } from '../handlers/productoraHandlers.js';
 
 const productoraRouter = Router();
@@ -23,5 +24,8 @@ productoraRouter.put("/:id", [
   check('slogan', 'slogan requerido').not().isEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarProductoraHandler);
+
+// Listar Productoras
+productoraRouter.get("/lista", listarProductorasHandler);
 
 export default productoraRouter;  

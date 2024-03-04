@@ -1,5 +1,6 @@
 import crearDirector from './../controllers/directorControllers/crearDirector.js';
 import editarDirector from './../controllers/directorControllers/editarDirector.js';
+import listarDirectores from './../controllers/directorControllers/listarDirectores.js';
 import { validationResult } from 'express-validator';
 
 // Crear Director
@@ -58,6 +59,24 @@ export const editarDirectorHandler = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).send('Ocurrio un error');
+
+  }
+
+}
+
+// Lista de Directores
+
+export const listarDirectoresHandler = async (req, res) => {
+
+  try {
+    
+    const directores = await listarDirectores();
+
+    return res.status(200).send(directores);
+
+  } catch (error) {
+    
+    return res.status(500).send({errors: error.message});
 
   }
 

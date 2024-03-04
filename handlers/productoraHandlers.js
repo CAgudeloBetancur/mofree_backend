@@ -1,3 +1,4 @@
+import listarProductoras from '../controllers/productoraControllers/listarProductoras.js';
 import crearProductora from './../controllers/productoraControllers/crearProductora.js';
 import editarProductora from './../controllers/productoraControllers/editarProductora.js';
 import { validationResult } from 'express-validator';
@@ -62,3 +63,19 @@ export const editarProductoraHandler = async (req, res) => {
   }
 
 }
+
+// Listar Productoras
+
+export const listarProductorasHandler = async (req, res) => {
+  try {
+    
+    const productoras = await listarProductoras();
+
+    return res.status(200).send(productoras);
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message})
+
+  }
+} 
