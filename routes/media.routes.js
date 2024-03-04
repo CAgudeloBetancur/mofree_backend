@@ -9,6 +9,10 @@ import {
   editarParcialMediaHandler
 } from '../handlers/mediaHandlers.js';
 
+import {
+  validate_idInReferenceProperties
+} from './../middlewares/routesMiddlewares/MediaMiddlewares.js'
+
 const mediaRouter = Router();
 
 const validaciones = [
@@ -32,7 +36,7 @@ const validaciones = [
 ];
 
 // Crear Media
-mediaRouter.post("/", validaciones, crearMediaHandler);
+mediaRouter.post("/", validaciones, validate_idInReferenceProperties, crearMediaHandler);
 
 // Listar Medias
 mediaRouter.get("/all", listarMediasHandler);
