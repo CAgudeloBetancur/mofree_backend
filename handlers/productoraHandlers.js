@@ -1,3 +1,4 @@
+import eliminarProductora from '../controllers/productoraControllers/eliminarProductora.js';
 import listarProductoras from '../controllers/productoraControllers/listarProductoras.js';
 import crearProductora from './../controllers/productoraControllers/crearProductora.js';
 import editarProductora from './../controllers/productoraControllers/editarProductora.js';
@@ -79,3 +80,25 @@ export const listarProductorasHandler = async (req, res) => {
 
   }
 } 
+
+// Eliminar productora por id
+
+export const eliminarProductoraHandler = async (req, res) => {
+  try {
+    
+    const {id} = req.params;
+
+    const result = await eliminarProductora(id);
+
+    if(!result.deleted) {
+      return res.status(400).send('Esta Productora no existe');
+    }
+
+    res.status(200).json({message: 'Deleted Successfully'});
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+
+  }
+}

@@ -1,9 +1,10 @@
 import {Router} from 'express';
-import { check } from 'express-validator';
+import { check, param } from 'express-validator';
 
 import { 
   crearGeneroHandler,
   editarGeneroHandler,
+  eliminarGeneroHandler,
   listarGenerosHandler
 } from '../handlers/generoHandlers.js';
 
@@ -25,5 +26,15 @@ generoRouter.put("/:id", [
 
 // Listar Generos
 generoRouter.get("/lista", listarGenerosHandler);
+
+// Eliminar Genero por id
+generoRouter.delete(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  eliminarGeneroHandler);
 
 export default generoRouter;

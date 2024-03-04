@@ -1,3 +1,4 @@
+import eliminarGenero from '../controllers/generoControllers/eliminarGenero.js';
 import listarGeneros from '../controllers/generoControllers/listarGeneros.js';
 import crearGenero from './../controllers/generoControllers/crearGenero.js';
 import editarGenero from './../controllers/generoControllers/editarGenero.js';
@@ -80,4 +81,26 @@ export const listarGenerosHandler = async (req, res) => {
 
   }
 
+}
+
+// Eliminar Genero por id
+
+export const eliminarGeneroHandler = async (req, res) => {
+  try {
+    
+    const {id} = req.params;
+
+    const result = await eliminarGenero(id);
+
+    if(!result.deleted) {
+      return res.status(400).send('Este genero no existe');
+    }
+
+    res.status(200).json({message: 'Deleted Successfully'});
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+
+  }
 }

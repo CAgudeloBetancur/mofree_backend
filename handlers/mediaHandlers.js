@@ -1,7 +1,7 @@
 import crearMedia from './../controllers/mediaControllers/crearMedia.js';
 import listarMedias from './../controllers/mediaControllers/listarMedias.js';
 import editarMedia from './../controllers/mediaControllers/editarMedia.js';
-import deleteMedia from '../controllers/mediaControllers/eliminarMedia.js';
+import eliminarMedia from '../controllers/mediaControllers/eliminarMedia.js';
 import editarParcialMedia from '../controllers/mediaControllers/editarParcialMedia.js';
 import { validationResult } from 'express-validator';
 
@@ -91,7 +91,7 @@ export const eliminarMediaHandler = async (req, res) => {
     
     const {id} = req.params;
 
-    const result = await deleteMedia(id);
+    const result = await eliminarMedia(id);
 
     if(!result.deleted) {
       return res.status(400).send('Esta Media no existe');

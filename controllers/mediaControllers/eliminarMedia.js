@@ -1,6 +1,6 @@
 import Media from './../../models/Media.js';
 
-const deleteMedia = async (id) => {
+const eliminarMedia = async (id) => {
 
   let mediaEliminado = await Media.findByIdAndDelete(id);
 
@@ -8,4 +8,4 @@ const deleteMedia = async (id) => {
 
 }
 
-export default deleteMedia;
+export default eliminarMedia;

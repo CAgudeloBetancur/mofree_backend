@@ -1,9 +1,10 @@
 import {Router} from 'express';
-import { check } from 'express-validator';
+import { check, param } from 'express-validator';
 
 import { 
   crearProductoraHandler,
   editarProductoraHandler,
+  eliminarProductoraHandler,
   listarProductorasHandler
 } from '../handlers/productoraHandlers.js';
 
@@ -27,5 +28,15 @@ productoraRouter.put("/:id", [
 
 // Listar Productoras
 productoraRouter.get("/lista", listarProductorasHandler);
+
+// Eliminar Productora por id
+productoraRouter.delete(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  eliminarProductoraHandler);
 
 export default productoraRouter;  

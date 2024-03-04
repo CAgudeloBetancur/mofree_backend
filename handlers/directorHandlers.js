@@ -1,3 +1,4 @@
+import eliminarDirector from '../controllers/directorControllers/eliminarDirector.js';
 import crearDirector from './../controllers/directorControllers/crearDirector.js';
 import editarDirector from './../controllers/directorControllers/editarDirector.js';
 import listarDirectores from './../controllers/directorControllers/listarDirectores.js';
@@ -80,4 +81,26 @@ export const listarDirectoresHandler = async (req, res) => {
 
   }
 
+}
+
+// Eliminar Director por id
+
+export const eliminarDirectorHandler = async (req, res) => {
+  try {
+    
+    const {id} = req.params;
+
+    const result = await eliminarDirector(id);
+
+    if(!result.deleted) {
+      return res.status(400).send('Esta Media no existe');
+    }
+
+    res.status(200).json({message: 'Deleted Successfully'});
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+
+  }
 }
