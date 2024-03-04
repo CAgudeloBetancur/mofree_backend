@@ -1,5 +1,6 @@
 import editarParcialDirector from '../controllers/directorControllers/editarParcialDirector.js';
 import eliminarDirector from '../controllers/directorControllers/eliminarDirector.js';
+import obtenerDirectorPorId from '../controllers/directorControllers/obtenerDirectorPorId.js';
 import crearDirector from './../controllers/directorControllers/crearDirector.js';
 import editarDirector from './../controllers/directorControllers/editarDirector.js';
 import listarDirectores from './../controllers/directorControllers/listarDirectores.js';
@@ -123,4 +124,28 @@ export const editarParcialDirectorHandler = async (req, res) => {
     return res.status(500).send({error: error.message});
 
   }
+}
+
+// Obtener Director por id
+
+export const obtenerDirectorPorIdHandler = async (req, res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const director = await obtenerDirectorPorId(id);
+
+    if(!director) {
+      return res.status(400).send({error: 'No existe este Director'});
+    }
+
+    return res.status(200).send(director);
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+    
+  }
+
 }

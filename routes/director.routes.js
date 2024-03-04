@@ -6,7 +6,8 @@ import {
   editarDirectorHandler,
   editarParcialDirectorHandler,
   eliminarDirectorHandler,
-  listarDirectoresHandler
+  listarDirectoresHandler,
+  obtenerDirectorPorIdHandler
 } from '../handlers/directorHandlers.js';
 
 const directorRouter = Router();
@@ -50,5 +51,15 @@ directorRouter.patch(
     .isMongoId()
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
   editarParcialDirectorHandler);
+
+// Obtener director por id
+directorRouter.get(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  obtenerDirectorPorIdHandler);
 
 export default directorRouter;

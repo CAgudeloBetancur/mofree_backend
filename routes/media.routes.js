@@ -6,7 +6,8 @@ import {
   listarMediasHandler,
   editarMediaHandler,
   eliminarMediaHandler,
-  editarParcialMediaHandler
+  editarParcialMediaHandler,
+  obtenerMediaPorIdHandler
 } from '../handlers/mediaHandlers.js';
 
 import {
@@ -73,5 +74,15 @@ mediaRouter.delete(
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
   eliminarMediaHandler
 );
+
+// Obtener Media por id
+mediaRouter.get(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  obtenerMediaPorIdHandler);
 
 export default mediaRouter;

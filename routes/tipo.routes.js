@@ -6,7 +6,8 @@ import {
   listarTiposHandler,
   eliminarTipoHandler,
   editarTipoHandler,
-  editarParcialTipoHandler
+  editarParcialTipoHandler,
+  obtenerTipoPorIdHandler
 } from '../handlers/tipoHandlers.js';
 
 const tipoRouter = Router();
@@ -50,5 +51,16 @@ tipoRouter.delete(
     .isMongoId()
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
   eliminarTipoHandler);
+
+// Obtener Tipo por id
+tipoRouter.get(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  obtenerTipoPorIdHandler);
+
 
 export default tipoRouter;

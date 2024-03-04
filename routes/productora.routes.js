@@ -6,7 +6,8 @@ import {
   editarParcialProductoraHandler,
   editarProductoraHandler,
   eliminarProductoraHandler,
-  listarProductorasHandler
+  listarProductorasHandler,
+  obtenerProductoraPorIdHandler
 } from '../handlers/productoraHandlers.js';
 
 const productoraRouter = Router();
@@ -54,5 +55,15 @@ productoraRouter.delete(
     .isMongoId()
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
   eliminarProductoraHandler);
+
+// Obtener Genero por id
+productoraRouter.get(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  obtenerProductoraPorIdHandler);
 
 export default productoraRouter;  

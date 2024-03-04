@@ -4,6 +4,7 @@ import editarMedia from './../controllers/mediaControllers/editarMedia.js';
 import eliminarMedia from '../controllers/mediaControllers/eliminarMedia.js';
 import editarParcialMedia from '../controllers/mediaControllers/editarParcialMedia.js';
 import { validationResult } from 'express-validator';
+import obtenerMediaPorId from '../controllers/mediaControllers/obtenerMediaPorId.js';
 
 // Crear Productora
 
@@ -123,4 +124,28 @@ export const editarParcialMediaHandler = async (req, res) => {
     return res.status(500).send({error: error.message});
 
   }
+}
+
+// Obtener Media por id
+
+export const obtenerMediaPorIdHandler = async (req, res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const media = await obtenerMediaPorId(id);
+
+    if(!media) {
+      return res.status(400).send({error: 'No existe esta Media'});
+    }
+
+    return res.status(200).send(media);
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+    
+  }
+
 }

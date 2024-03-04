@@ -1,6 +1,7 @@
 import editarParcialTipo from '../controllers/tipoControllers/editarParcialTipo.js';
 import editarTipo from '../controllers/tipoControllers/editarTipo.js';
 import eliminarTipo from '../controllers/tipoControllers/eliminarTipo.js';
+import obtenerTipoPorId from '../controllers/tipoControllers/obtenerTipoPorId.js';
 import crearTipo from './../controllers/tipoControllers/crearTipo.js';
 import listarTipos from './../controllers/tipoControllers/listarTipos.js';
 import { validationResult } from 'express-validator';
@@ -121,4 +122,28 @@ export const editarParcialTipoHandler = async (req, res) => {
     return res.status(500).send({error: error.message});
 
   }
+}
+
+// Obtener Tipo por id
+
+export const obtenerTipoPorIdHandler = async (req, res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const tipo = await obtenerTipoPorId(id);
+
+    if(!tipo) {
+      return res.status(400).send({error: 'No existe este Director'});
+    }
+
+    return res.status(200).send(tipo);
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+    
+  }
+
 }

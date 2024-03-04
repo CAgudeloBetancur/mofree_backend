@@ -1,6 +1,7 @@
 import editarParcialGenero from '../controllers/generoControllers/editarParcialGenero.js';
 import eliminarGenero from '../controllers/generoControllers/eliminarGenero.js';
 import listarGeneros from '../controllers/generoControllers/listarGeneros.js';
+import obtenerGeneroPorId from '../controllers/generoControllers/obtenerGeneroPorId.js';
 import crearGenero from './../controllers/generoControllers/crearGenero.js';
 import editarGenero from './../controllers/generoControllers/editarGenero.js';
 import { validationResult } from 'express-validator';
@@ -123,4 +124,28 @@ export const editarParcialGeneroHandler = async (req, res) => {
     return res.status(500).send({error: error.message});
 
   }
+}
+
+// Obtener Genero por id
+
+export const obtenerGeneroPorIdHandler = async (req, res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const genero = await obtenerGeneroPorId(id);
+
+    if(!genero) {
+      return res.status(400).send({error: 'No existe este Director'});
+    }
+
+    return res.status(200).send(genero);
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+    
+  }
+
 }

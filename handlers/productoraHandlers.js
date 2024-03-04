@@ -1,6 +1,7 @@
 import editarParcialProductora from '../controllers/productoraControllers/editarParcialProductora.js';
 import eliminarProductora from '../controllers/productoraControllers/eliminarProductora.js';
 import listarProductoras from '../controllers/productoraControllers/listarProductoras.js';
+import obtenerProductoraPorId from '../controllers/productoraControllers/obtenerProductoraPorId.js';
 import crearProductora from './../controllers/productoraControllers/crearProductora.js';
 import editarProductora from './../controllers/productoraControllers/editarProductora.js';
 import { validationResult } from 'express-validator';
@@ -121,4 +122,28 @@ export const editarParcialProductoraHandler = async (req, res) => {
     return res.status(500).send({error: error.message});
 
   }
+}
+
+// Obtener Productora por id
+
+export const obtenerProductoraPorIdHandler = async (req, res) => {
+
+  try {
+    
+    const {id} = req.params;
+
+    const productora = await obtenerProductoraPorId(id);
+
+    if(!productora) {
+      return res.status(400).send({error: 'No existe este Director'});
+    }
+
+    return res.status(200).send(productora);
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+    
+  }
+
 }
