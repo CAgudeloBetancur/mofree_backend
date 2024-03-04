@@ -12,8 +12,8 @@ const generoRouter = Router();
 
 // Crear Genero
 generoRouter.post("/", [
-  check('nombre', 'nombre requerido').not().isEmpty(),
-  check('descripcion', 'descripcion requerida').not().isEmpty(),
+  check('nombre', 'nombre requerido').notEmpty(),
+  check('descripcion', 'descripcion requerida').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], crearGeneroHandler);
 
@@ -24,8 +24,8 @@ generoRouter.put("/:id", [
     .withMessage('El parámetro id es obligatorio')
     .isMongoId()
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  check('nombre', 'nombre requerido').not().isEmpty(),
-  check('descripcion', 'descripcion requerida').not().isEmpty(),
+  check('nombre', 'nombre requerido').notEmpty(),
+  check('descripcion', 'descripcion requerida').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarGeneroHandler);
 

@@ -12,9 +12,9 @@ const productoraRouter = Router();
 
 // Crear Productora
 productoraRouter.post("/", [
-  check('nombre', 'nombre requerido').not().isEmpty(),
-  check('descripcion', 'descripcion requerida').not().isEmpty(),
-  check('slogan', 'slogan requerido').not().isEmpty(),
+  check('nombre', 'nombre requerido').notEmpty(),
+  check('descripcion', 'descripcion requerida').notEmpty(),
+  check('slogan', 'slogan requerido').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], crearProductoraHandler);
 
@@ -25,9 +25,9 @@ productoraRouter.put("/:id", [
     .withMessage('El parámetro id es obligatorio')
     .isMongoId()
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  check('nombre', 'nombre requerido').not().isEmpty(),
-  check('descripcion', 'descripcion requerida').not().isEmpty(),
-  check('slogan', 'slogan requerido').not().isEmpty(),
+  check('nombre', 'nombre requerido').notEmpty(),
+  check('descripcion', 'descripcion requerida').notEmpty(),
+  check('slogan', 'slogan requerido').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarProductoraHandler);
 

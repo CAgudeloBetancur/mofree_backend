@@ -1,3 +1,4 @@
+import editarTipo from '../controllers/tipoControllers/editarTipo.js';
 import eliminarTipo from '../controllers/tipoControllers/eliminarTipo.js';
 import crearTipo from './../controllers/tipoControllers/crearTipo.js';
 import listarTipos from './../controllers/tipoControllers/listarTipos.js';
@@ -27,6 +28,41 @@ export const crearTipoHandler = async (req, res) => {
     return res.status(500).json({error: error.message});
 
   }
+}
+
+// Editar tipo
+
+export const editarTipoHandler = async (req, res) => {
+
+  try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+
+      return res.status(400).json({error: errors.array()});
+
+    }
+
+    const srcTipo = req.body;
+    const id = req.params.id;
+
+    const tipoActualizado = await editarTipo(srcTipo, id);
+
+    if(!tipoActualizado) {
+
+      return res.status(400).send('Este Tipo no existe');
+
+    }
+
+    return res.status(200).send(tipoActualizado);
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Ocurrio un error');
+
+  }
+
 }
 
 // Obtener toda la lista de tipos

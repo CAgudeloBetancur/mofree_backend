@@ -12,7 +12,7 @@ const directorRouter = Router();
 
 // Crear Director
 directorRouter.post("/", [
-  check('nombre', 'nombre requerido').not().isEmpty(),
+  check('nombre', 'nombre requerido').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], crearDirectorHandler);
 
@@ -23,7 +23,7 @@ directorRouter.put("/:id", [
     .withMessage('El parámetro id es obligatorio')
     .isMongoId()
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  check('nombre', 'nombre requerido').not().isEmpty(),
+  check('nombre', 'nombre requerido').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarDirectorHandler);
 
