@@ -4,6 +4,7 @@ import { check, param } from 'express-validator';
 import { 
   crearDirectorHandler,
   editarDirectorHandler,
+  editarParcialDirectorHandler,
   eliminarDirectorHandler,
   listarDirectoresHandler
 } from '../handlers/directorHandlers.js';
@@ -39,5 +40,15 @@ directorRouter.delete(
     .isMongoId()
     .withMessage('El parámetro id debe ser un id válido para MongoDb'),
   eliminarDirectorHandler);
+
+// Editar parcialmente Director
+directorRouter.patch(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  editarParcialDirectorHandler);
 
 export default directorRouter;

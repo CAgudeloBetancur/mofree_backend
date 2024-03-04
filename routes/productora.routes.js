@@ -3,6 +3,7 @@ import { check, param } from 'express-validator';
 
 import { 
   crearProductoraHandler,
+  editarParcialProductoraHandler,
   editarProductoraHandler,
   eliminarProductoraHandler,
   listarProductorasHandler
@@ -18,7 +19,7 @@ productoraRouter.post("/", [
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], crearProductoraHandler);
 
-// Editar Genero
+// Editar Productora
 productoraRouter.put("/:id", [
   param('id')
     .notEmpty()
@@ -30,6 +31,16 @@ productoraRouter.put("/:id", [
   check('slogan', 'slogan requerido').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarProductoraHandler);
+
+// Editar parcialmente Productora
+productoraRouter.patch(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  editarParcialProductoraHandler);
 
 // Listar Productoras
 productoraRouter.get("/lista", listarProductorasHandler);

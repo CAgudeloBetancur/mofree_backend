@@ -1,3 +1,4 @@
+import editarParcialProductora from '../controllers/productoraControllers/editarParcialProductora.js';
 import eliminarProductora from '../controllers/productoraControllers/eliminarProductora.js';
 import listarProductoras from '../controllers/productoraControllers/listarProductoras.js';
 import crearProductora from './../controllers/productoraControllers/crearProductora.js';
@@ -95,6 +96,25 @@ export const eliminarProductoraHandler = async (req, res) => {
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+
+  }
+}
+
+// Editar parcialmente productora
+
+export const editarParcialProductoraHandler = async (req, res) => {
+  try {
+    
+    const {id} = req.params;
+    const propiedades = req.body;
+
+    const result = await editarParcialProductora(propiedades, id);
+
+    return res.status(200).send(result);
 
   } catch (error) {
     

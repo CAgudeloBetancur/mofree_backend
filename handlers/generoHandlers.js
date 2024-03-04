@@ -1,3 +1,4 @@
+import editarParcialGenero from '../controllers/generoControllers/editarParcialGenero.js';
 import eliminarGenero from '../controllers/generoControllers/eliminarGenero.js';
 import listarGeneros from '../controllers/generoControllers/listarGeneros.js';
 import crearGenero from './../controllers/generoControllers/crearGenero.js';
@@ -97,6 +98,25 @@ export const eliminarGeneroHandler = async (req, res) => {
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+
+  }
+}
+
+// Editar parcialmente Genero
+
+export const editarParcialGeneroHandler = async (req, res) => {
+  try {
+    
+    const {id} = req.params;
+    const propiedades = req.body;
+
+    const result = await editarParcialGenero(propiedades, id);
+
+    return res.status(200).send(result);
 
   } catch (error) {
     

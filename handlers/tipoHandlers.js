@@ -1,3 +1,4 @@
+import editarParcialTipo from '../controllers/tipoControllers/editarParcialTipo.js';
 import editarTipo from '../controllers/tipoControllers/editarTipo.js';
 import eliminarTipo from '../controllers/tipoControllers/eliminarTipo.js';
 import crearTipo from './../controllers/tipoControllers/crearTipo.js';
@@ -95,6 +96,25 @@ export const eliminarTipoHandler = async (req, res) => {
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+
+  }
+}
+
+// Editar parcialmente Tipo
+
+export const editarParcialTipoHandler = async (req, res) => {
+  try {
+    
+    const {id} = req.params;
+    const propiedades = req.body;
+
+    const result = await editarParcialTipo(propiedades, id);
+
+    return res.status(200).send(result);
 
   } catch (error) {
     

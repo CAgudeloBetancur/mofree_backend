@@ -54,7 +54,14 @@ mediaRouter.put(
 );
 
 // Editar parcial media
-mediaRouter.patch("/:id", editarParcialMediaHandler);
+mediaRouter.patch(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  editarParcialMediaHandler);
 
 // Eliminar Media
 mediaRouter.delete(

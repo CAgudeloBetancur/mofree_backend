@@ -5,7 +5,8 @@ import {
   crearTipoHandler,
   listarTiposHandler,
   eliminarTipoHandler,
-  editarTipoHandler
+  editarTipoHandler,
+  editarParcialTipoHandler
 } from '../handlers/tipoHandlers.js';
 
 const tipoRouter = Router();
@@ -26,6 +27,16 @@ tipoRouter.put("/:id", [
   check('nombre', 'nombre requerido').notEmpty(),
   check('descripcion', 'descripcion requerida').notEmpty()
 ], editarTipoHandler);
+
+//Editar parcialmente tipo
+tipoRouter.patch(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  editarParcialTipoHandler);
 
 // Listar Tipos
 tipoRouter.get("/lista", listarTiposHandler);

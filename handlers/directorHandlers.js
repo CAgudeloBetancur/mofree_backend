@@ -1,3 +1,4 @@
+import editarParcialDirector from '../controllers/directorControllers/editarParcialDirector.js';
 import eliminarDirector from '../controllers/directorControllers/eliminarDirector.js';
 import crearDirector from './../controllers/directorControllers/crearDirector.js';
 import editarDirector from './../controllers/directorControllers/editarDirector.js';
@@ -97,6 +98,25 @@ export const eliminarDirectorHandler = async (req, res) => {
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
+
+  } catch (error) {
+    
+    return res.status(500).send({error: error.message});
+
+  }
+}
+
+// Editar parcialmente Director
+
+export const editarParcialDirectorHandler = async (req, res) => {
+  try {
+    
+    const {id} = req.params;
+    const propiedades = req.body;
+
+    const result = await editarParcialDirector(propiedades, id);
+
+    return res.status(200).send(result);
 
   } catch (error) {
     

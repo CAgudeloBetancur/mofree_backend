@@ -4,6 +4,7 @@ import { check, param } from 'express-validator';
 import { 
   crearGeneroHandler,
   editarGeneroHandler,
+  editarParcialGeneroHandler,
   eliminarGeneroHandler,
   listarGenerosHandler
 } from '../handlers/generoHandlers.js';
@@ -28,6 +29,16 @@ generoRouter.put("/:id", [
   check('descripcion', 'descripcion requerida').notEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarGeneroHandler);
+
+// Editar parcialmente Genero
+generoRouter.patch(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  editarParcialGeneroHandler);
 
 // Listar Generos
 generoRouter.get("/lista", listarGenerosHandler);
