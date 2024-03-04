@@ -18,6 +18,11 @@ directorRouter.post("/", [
 
 // Editar Director
 directorRouter.put("/:id", [
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
   check('nombre', 'nombre requerido').not().isEmpty(),
   check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
 ], editarDirectorHandler);

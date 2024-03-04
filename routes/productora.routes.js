@@ -20,6 +20,11 @@ productoraRouter.post("/", [
 
 // Editar Genero
 productoraRouter.put("/:id", [
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
   check('nombre', 'nombre requerido').not().isEmpty(),
   check('descripcion', 'descripcion requerida').not().isEmpty(),
   check('slogan', 'slogan requerido').not().isEmpty(),

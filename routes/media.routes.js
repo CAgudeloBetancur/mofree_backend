@@ -42,7 +42,16 @@ mediaRouter.post("/", validaciones, validate_idInReferenceProperties, crearMedia
 mediaRouter.get("/lista", listarMediasHandler);
 
 // Editar Media
-mediaRouter.put("/:id", validaciones, editarMediaHandler);
+mediaRouter.put(
+  "/:id", 
+  param('id')
+    .notEmpty()
+    .withMessage('El parámetro id es obligatorio')
+    .isMongoId()
+    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
+  validaciones, 
+  editarMediaHandler
+);
 
 // Editar parcial media
 mediaRouter.patch("/:id", editarParcialMediaHandler);
