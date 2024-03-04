@@ -1,5 +1,4 @@
 import {Router} from 'express';
-import { check, body, param } from 'express-validator';
 
 import { 
   crearMediaHandler,
@@ -7,82 +6,35 @@ import {
   editarMediaHandler,
   eliminarMediaHandler,
   editarParcialMediaHandler,
-  obtenerMediaPorIdHandler
-} from '../handlers/mediaHandlers.js';
+  obtenerMediaPorIdHandler } 
+  from '../handlers/mediaHandlers.js';
+
+import { 
+  validarParametroId } 
+  from '../middlewares/routesMiddlewares/Common/validarParametroId.js';
 
 import {
-  validate_idInReferenceProperties
-} from './../middlewares/routesMiddlewares/MediaMiddlewares.js'
+  validateMediaBody } 
+  from './../middlewares/routesMiddlewares/MediaMiddlewares.js'
 
 const mediaRouter = Router();
 
-const validaciones = [
-  check('serial', 'serial requerido').notEmpty(),
-  check('titulo', 'titulo requerido').notEmpty(),
-  check('sinopsis', 'sinopsis requerida').notEmpty(),
-  check('urlPelicula', 'urlPelicula requerido').notEmpty(),
-  check('urlImagen', 'urlImagen requerido').notEmpty(),
-  check('fechaEstreno', 'fechaEstreno requerido').notEmpty()
-    .isISO8601()
-    .withMessage('fechaEstreno debe estar en formato (YYYY-MM-DD) y ser válida'),
-  check('generoPrincipal', 'generoPrincipal requerido').notEmpty(),
-  check('directorPrincipal', 'directorPrincipal requerido').notEmpty(),
-  check('productora', 'productora requerida').notEmpty(),
-  check('tipo', 'tipo requerido').notEmpty(),
-  body('**._id')
-    .notEmpty()
-    .withMessage('Un identificador (_id) es requerido')
-    .isMongoId()
-    .withMessage('Debe ser un identificador MongoDb válido')
-];
-
 // Crear Media
-mediaRouter.post("/", validaciones, validate_idInReferenceProperties, crearMediaHandler);
+mediaRouter.post("/", validateMediaBody, crearMediaHandler);
 
 // Listar Medias
 mediaRouter.get("/lista", listarMediasHandler);
 
+// Obtener Media por id
+mediaRouter.get("/:id", validarParametroId, obtenerMediaPorIdHandler);
+
 // Editar Media
-mediaRouter.put(
-  "/:id", 
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  validaciones, 
-  editarMediaHandler
-);
+mediaRouter.put("/:id", validarParametroId, validateMediaBody, editarMediaHandler);
 
 // Editar parcial media
-mediaRouter.patch(
-  "/:id", 
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  editarParcialMediaHandler);
+mediaRouter.patch("/:id", validarParametroId, editarParcialMediaHandler);
 
 // Eliminar Media
-mediaRouter.delete(
-  "/:id", 
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  eliminarMediaHandler
-);
-
-// Obtener Media por id
-mediaRouter.get(
-  "/:id", 
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  obtenerMediaPorIdHandler);
+mediaRouter.delete("/:id", validarParametroId, eliminarMediaHandler);
 
 export default mediaRouter;

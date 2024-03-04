@@ -1,64 +1,51 @@
-import Media  from "./../../models/Media.js";
-import Genero  from "./../../models/Genero.js";
-import Director  from "./../../models/Director.js";
-import Productora  from "./../../models/Productora.js";
-import Tipo  from "./../../models/Tipo.js";
-import { validationResult } from "express-validator";  
+import Genero  from "../../models/Genero.js";
+import Director  from "../../models/Director.js";
+import Productora  from "../../models/Productora.js";
+import Tipo  from "../../models/Tipo.js";
+import { body, check } from "express-validator";
 
-// Obtiene el nombre de una variable como string
-const varToString = varObj => Object.keys(varObj)[0];
-
-// Construye el mensaje de error
-const message = (id, objetoPropiedad) => {
+const message = (id, propiedad) => {
   const msgP1 = "en la propiedad";
   const msgP2 = "no referencia un elemento existente en la base de datos";
-  return {
-    path: `${varToString(objetoPropiedad)}._id`,
-    value: id,
-    message: `El _id ${id} ${msgP1} ${varToString(objetoPropiedad)} ${msgP2}`
-  }
+  return `El _id ${id} ${msgP1} ${propiedad} ${msgP2}`;
 }
 
-// Valida que un _id de una propiedad de la request corresponda a un elemento en la base de datos
-export const validate_idInReferenceProperties = async (req, res, next) => {
-
-  if (req.method === 'POST') {
-
-      const errors = validationResult(req);
-
-      if (!errors.isEmpty()) {
-        // Si hay errores, envía una respuesta con los mensajes de error
-        return res.status(400).json({ errors: errors.array() });
-      }
-
-      const mediaRequest = req.body;
-
-      const errorsArr = [];
-
-      const {
-        generoPrincipal,
-        directorPrincipal,
-        productora,
-        tipo
-      } = mediaRequest;
-
-      const [existeGenero, existeDirector, existeProductora, existeTipo] = await Promise.all([
-        Genero.exists({_id: generoPrincipal._id}),
-        Director.exists({_id: directorPrincipal._id}),
-        Productora.exists({_id: productora._id}),
-        Tipo.exists({_id: tipo._id})
-      ])
-
-      if(!existeGenero) errorsArr.push(message(generoPrincipal._id, {generoPrincipal}));
-      if(!existeDirector) errorsArr.push(message(directorPrincipal._id, {directorPrincipal}));
-      if(!existeProductora) errorsArr.push(message(productora._id, {productora}));
-      if(!existeTipo) errorsArr.push(message(tipo._id, {tipo}));
-
-      if(errorsArr.length > 0) {
-        return res.status(400).send({errors: errorsArr});
-      }
-
-    }
-    
-    next();
-};
+export const validateMediaBody = [
+  check('serial', 'serial requerido').notEmpty(),
+  check('titulo', 'titulo requerido').notEmpty(),
+  check('sinopsis', 'sinopsis requerida').notEmpty(),
+  check('urlPelicula', 'urlPelicula requerido').notEmpty(),
+  check('urlImagen', 'urlImagen requerido').notEmpty(),
+  check('fechaEstreno', 'fechaEstreno requerido').notEmpty()
+    .isISO8601()
+    .withMessage('fechaEstreno debe estar en formato (YYYY-MM-DD) y ser válida'),
+  check('generoPrincipal', 'generoPrincipal requerido').notEmpty(),
+  check('directorPrincipal', 'directorPrincipal requerido').notEmpty(),
+  check('productora', 'productora requerida').notEmpty(),
+  check('tipo', 'tipo requerido').notEmpty(),
+  body('**._id')
+    .notEmpty()
+    .withMessage('Un identificador (_id) es requerido')
+    .isMongoId()
+    .withMessage('Debe ser un identificador MongoDb válido'),
+  body('generoPrincipal._id')
+    .custom(async value => {
+      const existeGenero = await Genero.exists({_id: value});
+      if(!existeGenero) throw new Error(message(value, 'generoPrincipal'));
+    }),
+  body('directorPrincipal._id')
+    .custom(async value => {
+      const existeDirector = await Director.exists({_id: value});
+      if(!existeDirector) throw new Error(message(value, 'directorPrincipal'));
+    }),
+  body('productora._id')
+    .custom(async value => {
+      const existeProductora = await Productora.exists({_id: value});
+      if(!existeProductora) throw new Error(message(value, 'productora'));
+    }),
+  body('tipo._id')
+    .custom(async value => {
+      const existeTipo = await Tipo.exists({_id: value});
+      if(!existeTipo) throw new Error(message(value, 'tipo'));
+    })
+];

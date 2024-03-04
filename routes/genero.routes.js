@@ -7,61 +7,35 @@ import {
   editarParcialGeneroHandler,
   eliminarGeneroHandler,
   listarGenerosHandler,
-  obtenerGeneroPorIdHandler
-} from '../handlers/generoHandlers.js';
+  obtenerGeneroPorIdHandler } 
+  from '../handlers/generoHandlers.js';
+
+import { 
+  validarParametroId } 
+  from '../middlewares/routesMiddlewares/Common/validarParametroId.js';
+
+import { 
+  validarGeneroBody } 
+  from '../middlewares/routesMiddlewares/generoMiddlewares.js';
 
 const generoRouter = Router();
 
 // Crear Genero
-generoRouter.post("/", [
-  check('nombre', 'nombre requerido').notEmpty(),
-  check('descripcion', 'descripcion requerida').notEmpty(),
-  check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
-], crearGeneroHandler);
+generoRouter.post("/", validarGeneroBody, crearGeneroHandler);
 
 // Editar Genero
-generoRouter.put("/:id", [
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  check('nombre', 'nombre requerido').notEmpty(),
-  check('descripcion', 'descripcion requerida').notEmpty(),
-  check('estado', 'estado no valido').isIn(['Activo', 'Inactivo'])
-], editarGeneroHandler);
+generoRouter.put("/:id", validarParametroId, validarGeneroBody, editarGeneroHandler);
 
 // Editar parcialmente Genero
-generoRouter.patch(
-  "/:id", 
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  editarParcialGeneroHandler);
+generoRouter.patch("/:id", validarParametroId, editarParcialGeneroHandler);
 
 // Listar Generos
 generoRouter.get("/lista", listarGenerosHandler);
 
 // Eliminar Genero por id
-generoRouter.delete(
-  "/:id", 
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  eliminarGeneroHandler);
+generoRouter.delete("/:id", validarParametroId, eliminarGeneroHandler);
 
 // Obtener Genero por id
-generoRouter.get(
-  "/:id", 
-  param('id')
-    .notEmpty()
-    .withMessage('El parámetro id es obligatorio')
-    .isMongoId()
-    .withMessage('El parámetro id debe ser un id válido para MongoDb'),
-  obtenerGeneroPorIdHandler);
+generoRouter.get("/:id", validarParametroId, obtenerGeneroPorIdHandler);
 
 export default generoRouter;

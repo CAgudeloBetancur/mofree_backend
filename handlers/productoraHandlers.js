@@ -14,11 +14,7 @@ export const crearProductoraHandler = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-      
-      return res.status(400).json({message: errors.array()});
-    
-    }
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
     const srcProductora = req.body;
 
@@ -27,7 +23,8 @@ export const crearProductoraHandler = async (req, res) => {
 
   }catch(error){
 
-    return res.status(500).json({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -40,11 +37,7 @@ export const editarProductoraHandler = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-
-      return res.status(400).json({error: errors.array()});
-
-    }
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
     const srcProductora = req.body;
     const id = req.params.id;
@@ -53,15 +46,16 @@ export const editarProductoraHandler = async (req, res) => {
 
     if(!productoraActualizada) {
 
-      return res.status(400).send('Esta Productora no existe');
+      return res.status(400).send({error: 'Esta Productora no existe'});
 
     }
 
     return res.send(productoraActualizada);
 
   } catch (error) {
+
     console.log(error);
-    return res.status(500).send('Ocurrio un error');
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 
@@ -78,7 +72,8 @@ export const listarProductorasHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message})
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 } 
@@ -87,20 +82,25 @@ export const listarProductorasHandler = async (req, res) => {
 
 export const eliminarProductoraHandler = async (req, res) => {
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
 
     const result = await eliminarProductora(id);
 
     if(!result.deleted) {
-      return res.status(400).send('Esta Productora no existe');
+      return res.status(400).send({error: 'Esta Productora no existe'});
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -109,6 +109,10 @@ export const eliminarProductoraHandler = async (req, res) => {
 
 export const editarParcialProductoraHandler = async (req, res) => {
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
     const propiedades = req.body;
@@ -119,7 +123,8 @@ export const editarParcialProductoraHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -129,20 +134,25 @@ export const editarParcialProductoraHandler = async (req, res) => {
 export const obtenerProductoraPorIdHandler = async (req, res) => {
 
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
 
     const productora = await obtenerProductoraPorId(id);
 
     if(!productora) {
-      return res.status(400).send({error: 'No existe este Director'});
+      return res.status(400).send({error: 'No existe este Productora'});
     }
 
     return res.status(200).send(productora);
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
     
   }
 

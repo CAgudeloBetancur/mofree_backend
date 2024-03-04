@@ -14,11 +14,7 @@ export const crearMediaHandler = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-      
-      return res.status(400).json({message: errors.array()});
-    
-    }
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
     const srcMedia = req.body;
 
@@ -27,7 +23,8 @@ export const crearMediaHandler = async (req, res) => {
 
   }catch(error){
 
-    return res.status(500).json({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -44,7 +41,8 @@ export const listarMediasHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({errors: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 
@@ -58,11 +56,7 @@ export const editarMediaHandler = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-
-      return res.status(400).json({error: errors.array()});
-
-    }
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
     const srcMedia = req.body;
     const id = req.params.id;
@@ -71,15 +65,16 @@ export const editarMediaHandler = async (req, res) => {
 
     if(!mediaActualizada) {
 
-      return res.status(400).send('Esta Media no existe');
+      return res.status(400).send({error: 'Esta Media no existe'});
 
     }
 
     return res.send(mediaActualizada);
 
   } catch (error) {
+
     console.log(error);
-    return res.status(500).send('Ocurrio un error');
+    return res.status(500).send({error: 'Ocurrio un error'});
 
   }
 
@@ -89,20 +84,25 @@ export const editarMediaHandler = async (req, res) => {
 
 export const eliminarMediaHandler = async (req, res) => {
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
 
     const result = await eliminarMedia(id);
 
     if(!result.deleted) {
-      return res.status(400).send('Esta Media no existe');
+      return res.status(400).send({error: 'Esta Media no existe'});
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -111,17 +111,22 @@ export const eliminarMediaHandler = async (req, res) => {
 
 export const editarParcialMediaHandler = async (req, res) => {
   try {
-    
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
+
     const {id} = req.params;
     const propiedades = req.body;
-
+    
     const result = await editarParcialMedia(propiedades, id);
 
     return res.status(200).send(result);
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -131,6 +136,10 @@ export const editarParcialMediaHandler = async (req, res) => {
 export const obtenerMediaPorIdHandler = async (req, res) => {
 
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
 
@@ -144,7 +153,8 @@ export const obtenerMediaPorIdHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
     
   }
 

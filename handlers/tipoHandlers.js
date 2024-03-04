@@ -12,11 +12,7 @@ export const crearTipoHandler = async (req, res) => {
 
   const errors = validationResult(req);
 
-  if(!errors.isEmpty()) {
-    
-    return res.status(400).json({message: errors.array()});
-  
-  }
+  if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
   const srcTipo = req.body;
 
@@ -27,7 +23,8 @@ export const crearTipoHandler = async (req, res) => {
 
   }catch(error){
 
-    return res.status(500).json({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -40,11 +37,7 @@ export const editarTipoHandler = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-
-      return res.status(400).json({error: errors.array()});
-
-    }
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
     const srcTipo = req.body;
     const id = req.params.id;
@@ -53,7 +46,7 @@ export const editarTipoHandler = async (req, res) => {
 
     if(!tipoActualizado) {
 
-      return res.status(400).send('Este Tipo no existe');
+      return res.status(400).send({error: 'Este Tipo no existe'});
 
     }
 
@@ -61,8 +54,7 @@ export const editarTipoHandler = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-    return res.status(500).send('Ocurrio un error');
-
+    return res.status(500).json({error: 'Ocurrio un error'});
   }
 
 }
@@ -78,7 +70,8 @@ export const listarTiposHandler = async (req, res) => {
     
   } catch (error) {
     
-    return res.status(500).json({error : error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -87,20 +80,25 @@ export const listarTiposHandler = async (req, res) => {
 
 export const eliminarTipoHandler = async (req, res) => {
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
 
     const result = await eliminarTipo(id);
 
     if(!result.deleted) {
-      return res.status(400).send('Este tipo no existe');
+      return res.status(400).send({error: 'Este tipo no existe'});
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -110,6 +108,10 @@ export const eliminarTipoHandler = async (req, res) => {
 export const editarParcialTipoHandler = async (req, res) => {
   try {
     
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
+
     const {id} = req.params;
     const propiedades = req.body;
 
@@ -119,7 +121,8 @@ export const editarParcialTipoHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -130,6 +133,10 @@ export const obtenerTipoPorIdHandler = async (req, res) => {
 
   try {
     
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
+
     const {id} = req.params;
 
     const tipo = await obtenerTipoPorId(id);
@@ -142,7 +149,8 @@ export const obtenerTipoPorIdHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
     
   }
 

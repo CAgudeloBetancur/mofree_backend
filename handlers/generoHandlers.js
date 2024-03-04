@@ -14,11 +14,7 @@ export const crearGeneroHandler = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-      
-      return res.status(400).json({message: errors.array()});
-    
-    }
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
     const srcGenero = req.body;
 
@@ -27,7 +23,8 @@ export const crearGeneroHandler = async (req, res) => {
 
   }catch(error){
 
-    return res.status(500).json({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -40,11 +37,7 @@ export const editarGeneroHandler = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-
-      return res.status(400).json({error: errors.array()});
-
-    }
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
 
     const srcGenero = req.body;
     const id = req.params.id;
@@ -53,15 +46,16 @@ export const editarGeneroHandler = async (req, res) => {
 
     if(!generoActualizado) {
 
-      return res.status(400).send('Este Genero no existe');
+      return res.status(400).send({error: 'Este Genero no existe'});
 
     }
 
     return res.send(generoActualizado);
 
   } catch (error) {
+
     console.log(error);
-    return res.status(500).send('Ocurrio un error');
+    return res.status(500).send({error: 'Ocurrio un error'});
 
   }
 
@@ -79,7 +73,8 @@ export const listarGenerosHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({errors: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 
@@ -89,20 +84,25 @@ export const listarGenerosHandler = async (req, res) => {
 
 export const eliminarGeneroHandler = async (req, res) => {
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
 
     const result = await eliminarGenero(id);
 
     if(!result.deleted) {
-      return res.status(400).send('Este genero no existe');
+      return res.status(400).send({error: 'Este genero no existe'});
     }
 
     res.status(200).json({message: 'Deleted Successfully'});
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -111,6 +111,10 @@ export const eliminarGeneroHandler = async (req, res) => {
 
 export const editarParcialGeneroHandler = async (req, res) => {
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
     const propiedades = req.body;
@@ -121,7 +125,8 @@ export const editarParcialGeneroHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
 
   }
 }
@@ -131,6 +136,10 @@ export const editarParcialGeneroHandler = async (req, res) => {
 export const obtenerGeneroPorIdHandler = async (req, res) => {
 
   try {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
 
@@ -144,7 +153,8 @@ export const obtenerGeneroPorIdHandler = async (req, res) => {
 
   } catch (error) {
     
-    return res.status(500).send({error: error.message});
+    console.log(error);
+    return res.status(500).json({error: 'Ocurrio un error'});
     
   }
 
