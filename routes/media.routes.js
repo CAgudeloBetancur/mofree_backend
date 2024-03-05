@@ -14,6 +14,7 @@ import {
   from '../middlewares/routesMiddlewares/Common/validarParametroId.js';
 
 import {
+  validarPatchPropsMedia,
   validateMediaBody } 
   from './../middlewares/routesMiddlewares/MediaMiddlewares.js'
 
@@ -32,7 +33,7 @@ mediaRouter.get("/:id", validarParametroId, obtenerMediaPorIdHandler);
 mediaRouter.put("/:id", validarParametroId, validateMediaBody, editarMediaHandler);
 
 // Editar parcial media
-mediaRouter.patch("/:id", validarParametroId, editarParcialMediaHandler);
+mediaRouter.patch("/:id", validarParametroId, validarPatchPropsMedia, editarParcialMediaHandler);
 
 // Eliminar Media
 mediaRouter.delete("/:id", validarParametroId, eliminarMediaHandler);

@@ -119,6 +119,10 @@ export const editarParcialDirectorHandler = async (req, res) => {
 
     const result = await editarParcialDirector(propiedades, id);
 
+    if(result.matchedCount === 0) return res.status(400).json({error: 'Este Director no Existe'});
+
+    if(!result.acknowledged) return res.status(400).json({error: 'No existe la propiedad indicada'});
+
     return res.status(200).send(result);
 
   } catch (error) {

@@ -18,6 +18,8 @@ export const crearProductoraHandler = async (req, res) => {
 
     const srcProductora = req.body;
 
+    console.log(srcProductora);
+
     const nuevaProductora = await crearProductora(srcProductora);
     return res.status(200).json(nuevaProductora);
 
@@ -115,6 +117,7 @@ export const editarParcialProductoraHandler = async (req, res) => {
     if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
     
     const {id} = req.params;
+
     const propiedades = req.body;
 
     const result = await editarParcialProductora(propiedades, id);

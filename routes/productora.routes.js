@@ -14,6 +14,7 @@ import {
   from '../middlewares/routesMiddlewares/Common/validarParametroId.js';
 
 import { 
+  validarPatchPropsProductora,
   validarProductoraBody } 
   from '../middlewares/routesMiddlewares/productoraMiddlewares.js';
 
@@ -26,7 +27,7 @@ productoraRouter.post("/", validarProductoraBody, crearProductoraHandler);
 productoraRouter.put("/:id", validarParametroId, validarProductoraBody, editarProductoraHandler);
 
 // Editar parcialmente Productora
-productoraRouter.patch("/:id", validarParametroId, editarParcialProductoraHandler);
+productoraRouter.patch("/:id", validarParametroId, validarPatchPropsProductora, editarParcialProductoraHandler);
 
 // Listar Productoras
 productoraRouter.get("/lista", listarProductorasHandler);

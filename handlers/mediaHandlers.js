@@ -19,6 +19,7 @@ export const crearMediaHandler = async (req, res) => {
     const srcMedia = req.body;
 
     const nuevaMedia = await crearMedia(srcMedia);
+    
     return res.status(200).json(nuevaMedia);
 
   }catch(error){

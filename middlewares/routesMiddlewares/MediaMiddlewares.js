@@ -1,13 +1,18 @@
+import Media from "./../../models/Media.js";
 import Genero  from "../../models/Genero.js";
 import Director  from "../../models/Director.js";
 import Productora  from "../../models/Productora.js";
 import Tipo  from "../../models/Tipo.js";
 import { body, check } from "express-validator";
 
-const message = (id, propiedad) => {
-  const msgP1 = "en la propiedad";
-  const msgP2 = "no referencia un elemento existente en la base de datos";
-  return `El _id ${id} ${msgP1} ${propiedad} ${msgP2}`;
+const message = (tipoMsg, id, propiedad) => { // tipoMsg --> 1 = no existe | 2 = existe, pero Inactivo
+
+  const msgP1 = "El _id"
+  const msgP2 = "en la propiedad";
+  const msgP3 = "no referencia un elemento existente en la base de datos";
+  const msgP4 = "referencia un elemento existente, pero Inactivo; solo se admiten elementos Activos"
+
+  return `${msgP1} ${id} ${msgP2} ${propiedad} ${(tipoMsg === 1) ? msgP3 : msgP4}`;
 }
 
 export const validateMediaBody = [
@@ -30,22 +35,37 @@ export const validateMediaBody = [
     .withMessage('Debe ser un identificador MongoDb válido'),
   body('generoPrincipal._id')
     .custom(async value => {
-      const existeGenero = await Genero.exists({_id: value});
-      if(!existeGenero) throw new Error(message(value, 'generoPrincipal'));
+      const genero = await Genero.findById({_id: value});
+      if(!genero) throw new Error(message(1, value, 'generoPrincipal'));
+      if(genero.estado !== 'Activo') throw new Error(message(2, value, 'generoPrincipal'));
     }),
   body('directorPrincipal._id')
     .custom(async value => {
-      const existeDirector = await Director.exists({_id: value});
-      if(!existeDirector) throw new Error(message(value, 'directorPrincipal'));
+      const director = await Director.findById({_id: value}, 'estado');
+      if(!director) throw new Error(message(1, value, 'directorPrincipal'));
+      if(director.estado !== 'Activo') throw new Error(message(2, value, 'directorPrincipal'));
     }),
   body('productora._id')
     .custom(async value => {
-      const existeProductora = await Productora.exists({_id: value});
-      if(!existeProductora) throw new Error(message(value, 'productora'));
+      const productora = await Productora.findById({_id: value}, 'estado');
+      if(!productora) throw new Error(message(1, value, 'productora'));
+      if(productora.estado !== 'Activo') throw new Error(message(2, value, 'productora'));
     }),
   body('tipo._id')
     .custom(async value => {
-      const existeTipo = await Tipo.exists({_id: value});
-      if(!existeTipo) throw new Error(message(value, 'tipo'));
+      const tipo = await Tipo.exists({_id: value});
+      if(!tipo) throw new Error(message(1, value, 'tipo'));
     })
 ];
+
+export const validarPatchPropsMedia = [
+  body('')
+    .custom(async (value, {req}) => {
+      const media = new Media();
+      for(let propiedad in req.body) {
+        if(!(propiedad in media)) {
+          throw new Error(`La propiedad ${propiedad} no existe en el modelo que quiere actualizar`);
+        }         
+      }
+    }),
+]

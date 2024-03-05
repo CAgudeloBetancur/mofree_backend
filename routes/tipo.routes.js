@@ -14,6 +14,7 @@ import {
   from '../middlewares/routesMiddlewares/Common/validarParametroId.js';
 
 import { 
+  validarPatchPropsTipo,
   validarTipoBody } 
   from '../middlewares/routesMiddlewares/tipoMiddlewares.js';
 
@@ -26,7 +27,7 @@ tipoRouter.post("/", validarTipoBody, crearTipoHandler);
 tipoRouter.put("/:id", validarParametroId, validarTipoBody, editarTipoHandler);
 
 //Editar parcialmente tipo
-tipoRouter.patch("/:id", validarParametroId, editarParcialTipoHandler);
+tipoRouter.patch("/:id", validarParametroId, validarPatchPropsTipo,editarParcialTipoHandler);
 
 // Listar Tipos
 tipoRouter.get("/lista", listarTiposHandler);

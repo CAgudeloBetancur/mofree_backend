@@ -1,5 +1,4 @@
 import {Router} from 'express';
-import { check, param } from 'express-validator';
 
 import { 
   crearGeneroHandler,
@@ -15,7 +14,7 @@ import {
   from '../middlewares/routesMiddlewares/Common/validarParametroId.js';
 
 import { 
-  validarGeneroBody } 
+  validarGeneroBody, validarPatchPropsGenero } 
   from '../middlewares/routesMiddlewares/generoMiddlewares.js';
 
 const generoRouter = Router();
@@ -27,7 +26,7 @@ generoRouter.post("/", validarGeneroBody, crearGeneroHandler);
 generoRouter.put("/:id", validarParametroId, validarGeneroBody, editarGeneroHandler);
 
 // Editar parcialmente Genero
-generoRouter.patch("/:id", validarParametroId, editarParcialGeneroHandler);
+generoRouter.patch("/:id", validarParametroId, validarPatchPropsGenero, editarParcialGeneroHandler);
 
 // Listar Generos
 generoRouter.get("/lista", listarGenerosHandler);

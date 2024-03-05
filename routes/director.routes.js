@@ -1,5 +1,4 @@
 import {Router} from 'express';
-import { check, param } from 'express-validator';
 
 import { 
   crearDirectorHandler,
@@ -15,7 +14,7 @@ import {
 } from '../middlewares/routesMiddlewares/Common/validarParametroId.js';
 
 import { 
-  validarDirectorBody 
+  validarDirectorBody, validarPatchPropsDirector 
 } from '../middlewares/routesMiddlewares/directorMiddlewares.js';
 
 const directorRouter = Router();
@@ -36,6 +35,6 @@ directorRouter.get("/:id", validarParametroId, obtenerDirectorPorIdHandler);
 directorRouter.delete("/:id", validarParametroId, eliminarDirectorHandler);
 
 // Editar parcialmente Director
-directorRouter.patch("/:id", validarParametroId, editarParcialDirectorHandler);
+directorRouter.patch("/:id", validarParametroId, validarPatchPropsDirector, editarParcialDirectorHandler);
 
 export default directorRouter;

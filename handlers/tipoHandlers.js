@@ -10,13 +10,13 @@ import { validationResult } from 'express-validator';
 
 export const crearTipoHandler = async (req, res) => {
 
-  const errors = validationResult(req);
-
-  if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
-
-  const srcTipo = req.body;
-
   try{
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) return res.status(400).json({error: errors.array()});
+
+    const srcTipo = req.body;
 
     const nuevoTipo = await crearTipo(srcTipo);
     return res.status(200).json(nuevoTipo);
